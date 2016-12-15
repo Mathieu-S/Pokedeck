@@ -1,6 +1,9 @@
 package com.pokedeck;
 
 import com.pokedeck.cards.Card;
+import com.pokedeck.cards.CardType;
+import com.pokedeck.cards.EnergyCard;
+import com.pokedeck.cards.EnergyType;
 
 public class Main {
 
@@ -12,7 +15,8 @@ public class Main {
         System.out.println("");
 
         //Core
-        Card card = new Card("Test","None");
+        Card card = new EnergyCard("Eau", CardType.Energy, EnergyType.Water);
         System.out.println(card.getCardName());
+        System.out.println(card.getType());
     }
 }

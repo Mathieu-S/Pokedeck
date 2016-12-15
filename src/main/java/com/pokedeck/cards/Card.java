@@ -3,13 +3,13 @@ package com.pokedeck.cards;
 public class Card {
     //Atributes
     private String cardName;
-    private String type;
+    private CardType type;
     private int cardNumber;
 
     //Constructor
-    public Card(String cardName, String type) {
+    public Card(String cardName, CardType cardType) {
         this.cardName = cardName;
-        this.type = type;
+        this.type = cardType;
     }
 
     //Getter & Setter
@@ -21,11 +21,11 @@ public class Card {
         this.cardName = cardName;
     }
 
-    public String getType() {
+    public CardType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(CardType type) {
         this.type = type;
     }
 
