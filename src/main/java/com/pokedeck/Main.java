@@ -1,9 +1,6 @@
 package com.pokedeck;
 
-import com.pokedeck.cards.Card;
-import com.pokedeck.cards.CardType;
-import com.pokedeck.cards.EnergyCard;
-import com.pokedeck.cards.EnergyType;
+import com.pokedeck.cards.*;
 
 public class Main {
 
@@ -15,8 +12,17 @@ public class Main {
         System.out.println("");
 
         //Core
-        Card card = new EnergyCard("Eau", CardType.Energy, EnergyType.Water);
+        Card card = new EnergyCard("Eau", EnergyType.Water);
+        Card card1 = new PokemonCard("Rondoudou");
+        Card card2 = new TrainerCard("Pokeball");
+
         System.out.println(card.getCardName());
         System.out.println(card.getType());
+        System.out.println("");
+        System.out.println(card1.getCardName());
+        System.out.println(card1.getType());
+        System.out.println("");
+        System.out.println(card2.getCardName());
+        System.out.println(card2.getType());
     }
 }
