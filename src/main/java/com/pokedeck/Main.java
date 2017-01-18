@@ -24,5 +24,7 @@ public class Main {
         System.out.println("");
         System.out.println(card2.getCardName());
         System.out.println(card2.getType());
+
+        Window window = new Window();
     }
 }
