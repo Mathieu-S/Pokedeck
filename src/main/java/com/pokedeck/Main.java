@@ -2,6 +2,8 @@ package com.pokedeck;
 
 import com.pokedeck.cards.*;
 
+import javax.swing.*;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -13,8 +15,8 @@ public class Main {
 
         //Core
         Card card = new EnergyCard("Eau", EnergyType.Water);
-        Card card1 = new PokemonCard("Rondoudou");
-        Card card2 = new TrainerCard("Pokeball");
+        Card card1 = new PokemonCard("Rondoudou", EnergyType.Fairy, 50);
+        Card card2 = new TrainerCard("Pokeball", TrainerType.Item);
 
         System.out.println(card.getCardName());
         System.out.println(card.getType());
