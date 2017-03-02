@@ -2,7 +2,14 @@ package com.pokedeck.cards;
 
 public class TrainerCard extends Card{
 
-    public TrainerCard(String cardName) {
+    private TrainerType trainerType;
+
+    public TrainerCard(String cardName, TrainerType trainerType) {
         super(cardName, CardType.Trainer);
+        this.trainerType = trainerType;
+    }
+
+    public TrainerType getTrainerType() {
+        return trainerType;
     }
 }
