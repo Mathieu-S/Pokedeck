@@ -1,8 +1,7 @@
 package com.pokedeck;
 
 import com.pokedeck.cards.*;
-
-import javax.swing.*;
+import com.pokedeck.ui.MainWindow;
 
 public class Main {
 
@@ -27,6 +26,11 @@ public class Main {
         System.out.println(card2.getCardName());
         System.out.println(card2.getType());
 
-        Window window = new Window();
+        MainWindow mainWindow = new MainWindow();
+        mainWindow.pack();
+        mainWindow.setLocationRelativeTo(null);
+        mainWindow.setTitle("PokeDeck");
+        mainWindow.setSize(600,450);
+        mainWindow.setVisible(true);
     }
 }
