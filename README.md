@@ -1,2 +1,2 @@
 # Pokedeck
-A java game pokemon card
+A school project java list pokemon card
