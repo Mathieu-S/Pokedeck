@@ -21,7 +21,7 @@ public class MainWindow extends JFrame {
 
     //Attributes
     private String filename = "cards.ser";
-    private ArrayList cardArray = new ArrayList();
+    private ArrayList serializeCards = new ArrayList();
 
     public MainWindow() {
 
@@ -42,15 +42,14 @@ public class MainWindow extends JFrame {
         try {
             fis = new FileInputStream(filename);
             in = new ObjectInputStream(fis);
-            cardArray = (ArrayList) in.readObject();
+            serializeCards = (ArrayList) in.readObject();
             in.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        for (int i = 0; i < cardArray.size() ;i++) {
-//            System.out.println(cardArray.get(i));
-            Card tempCard = (Card) cardArray.get(i);
+        for (int i = 0; i < serializeCards.size() ; i++) {
+            Card tempCard = (Card) serializeCards.get(i);
             defaultListModel.add(i, tempCard.getCardName());
         }
         cardList.setModel(defaultListModel);
@@ -59,18 +58,18 @@ public class MainWindow extends JFrame {
         addCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 defaultListModel.add(defaultListModel.getSize(),card2.getCardName());
-                cardArray.add(card2);
+                serializeCards.add(card2);
             }
         });
 
         deleteCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    cardArray.remove(cardList.getSelectedIndex());
+                    serializeCards.remove(cardList.getSelectedIndex());
                     defaultListModel.remove(cardList.getSelectedIndex());
                     cardList.setModel(defaultListModel);
                 } catch (ArrayIndexOutOfBoundsException ex) {
-                    System.out.println(ex);
+                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(null,"Vous n'avez selectionnez aucune carte");
                 }
             }
@@ -94,12 +93,11 @@ public class MainWindow extends JFrame {
                 try {
                     fos = new FileOutputStream(filename);
                     out = new ObjectOutputStream(fos);
-                    out.writeObject(cardArray);
+                    out.writeObject(serializeCards);
 
                     out.close();
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    System.out.println(ex);
                     JOptionPane.showMessageDialog(null,"Une erreur c'est produite et vos données n'ont pas été sauvegardées");
                 }
                 dispose();
