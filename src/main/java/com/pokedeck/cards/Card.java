@@ -1,6 +1,8 @@
 package com.pokedeck.cards;
 
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
     //Atributes
     private String cardName;
     private CardType type;
