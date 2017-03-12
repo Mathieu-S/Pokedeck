@@ -3,6 +3,9 @@ package com.pokedeck.ui;
 import com.pokedeck.cards.*;
 
 import javax.swing.*;
+import javax.swing.plaf.TableHeaderUI;
+import javax.swing.plaf.TableUI;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,6 +33,8 @@ public class MainWindow extends JFrame {
         this.setTitle("PokeDeck");
         this.setLocationRelativeTo(null);
 
+
+
         final Card card = new EnergyCard("Eau", EnergyType.Water);
         Card card1 = new PokemonCard("Rondoudou", EnergyType.Fairy, 50);
         final Card card2 = new TrainerCard("Pokeball", TrainerType.Item);
@@ -54,11 +59,27 @@ public class MainWindow extends JFrame {
         }
         cardList.setModel(defaultListModel);
 
+//        Object [] cards = {card.getCardName(), card.getType()};
+//        DefaultTableModel defaultTableModel = new DefaultTableModel();
+//        Object [] entetes = {"Name", "Type"};
+//        defaultTableModel.addColumn("Name");
+//        defaultTableModel.addColumn("Type");
+//        defaultTableModel.setColumnIdentifiers(entetes);
+//        defaultTableModel.addRow(cards);
+//
+//        this.table1.setModel(defaultTableModel);
+
+
 
         addCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 defaultListModel.add(defaultListModel.getSize(),card2.getCardName());
                 serializeCards.add(card2);
+
+                AddCardWindow addCardWindow = new AddCardWindow(defaultListModel);
+                addCardWindow.pack();
+                addCardWindow.setSize(260,365);
+                addCardWindow.setVisible(true);
             }
         });
 
