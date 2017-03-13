@@ -6,12 +6,13 @@ public class Card implements Serializable {
     //Atributes
     private String cardName;
     private CardType type;
-    private int cardNumber;
+    private int cardID;
 
     //Constructor
-    public Card(String cardName, CardType cardType) {
+    public Card(String cardName, CardType cardType, int cardID) {
         this.cardName = cardName;
         this.type = cardType;
+        this.cardID = cardID;
     }
 
     //Getter & Setter
@@ -29,6 +30,14 @@ public class Card implements Serializable {
 
     public void setType(CardType type) {
         this.type = type;
+    }
+
+    public int getCardID() {
+        return cardID;
+    }
+
+    public void setCardID(int cardID) {
+        this.cardID = cardID;
     }
 
     @Override

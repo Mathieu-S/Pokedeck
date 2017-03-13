@@ -4,8 +4,8 @@ public class EnergyCard extends Card{
 
     private EnergyType energyType;
 
-    public EnergyCard(String cardName, EnergyType energyType) {
-        super(cardName, CardType.Energy);
+    public EnergyCard(String cardName, int cardID, EnergyType energyType) {
+        super(cardName, CardType.Pokemon , cardID);
         this.energyType = energyType;
     }
 

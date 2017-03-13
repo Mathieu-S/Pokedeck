@@ -4,8 +4,8 @@ public class TrainerCard extends Card{
 
     private TrainerType trainerType;
 
-    public TrainerCard(String cardName, TrainerType trainerType) {
-        super(cardName, CardType.Trainer);
+    public TrainerCard(String cardName, int cardID, TrainerType trainerType) {
+        super(cardName, CardType.Pokemon , cardID);
         this.trainerType = trainerType;
     }
 
