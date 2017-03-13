@@ -40,6 +40,7 @@ public class AddCardWindow extends JDialog {
         this.trainerTypeField.setModel(new DefaultComboBoxModel(TrainerType.values()));
         this.energyTypeField.setModel(new DefaultComboBoxModel(EnergyType.values()));
 
+        this.pokemonEvoFromField.addItem("None");
         for (Card card : cards) {
             if (card.getType() == CardType.Pokemon) {
                 this.pokemonEvoFromField.addItem(card.getCardName());
@@ -55,11 +56,30 @@ public class AddCardWindow extends JDialog {
                 if (cardNameField.getText().length()>0) {
                     listCards.add(listCards.getSize(),cardNameField.getText());
                     if (cardTypeField.getSelectedItem() == CardType.Pokemon) {
-                        cards.add(new PokemonCard(cardNameField.getText(), (EnergyType) pokemonTypeField.getSelectedItem(), (Integer) pokemonHPField.getValue()));
+                        if (pokemonEvoFromField.getSelectedItem() == "None") {
+                            PokemonCard pokemonCardNull = new PokemonCard("None", EnergyType.Darkness, 0);
+                            cards.add(new PokemonCard(cardNameField.getText(),
+                                    (Integer) cardIDField.getValue(),
+                                    (EnergyType) pokemonTypeField.getSelectedItem(),
+                                    (Integer) pokemonHPField.getValue(),
+                                    (Integer) pokemonEvoStageField.getValue(),
+                                    pokemonCardNull));
+                        } else {
+                            cards.add(new PokemonCard(cardNameField.getText(),
+                                    (Integer) cardIDField.getValue(),
+                                    (EnergyType) pokemonTypeField.getSelectedItem(),
+                                    (Integer) pokemonHPField.getValue(),
+                                    (Integer) pokemonEvoStageField.getValue(),
+                                    (PokemonCard) cards.get(pokemonEvoFromField.getSelectedIndex() - 1)));
+                        }
                     } else if (cardTypeField.getSelectedItem() == CardType.Trainer) {
-                        cards.add(new TrainerCard(cardNameField.getText(), (TrainerType) trainerTypeField.getSelectedItem()));
+                        cards.add(new TrainerCard(cardNameField.getText(),
+                                (Integer) cardIDField.getValue(),
+                                (TrainerType) trainerTypeField.getSelectedItem()));
                     } else if (cardTypeField.getSelectedItem() == CardType.Energy) {
-                        cards.add(new EnergyCard(cardNameField.getText(), (EnergyType) energyTypeField.getSelectedItem()));
+                        cards.add(new EnergyCard(cardNameField.getText(),
+                                (Integer) cardIDField.getValue(),
+                                (EnergyType) energyTypeField.getSelectedItem()));
                     }
                     dispose();
                 } else {

@@ -7,6 +7,12 @@ public class PokemonCard extends Card{
     private int evolutionStage = 0;
     private PokemonCard evolveFrom = null;
 
+    public PokemonCard(String cardName, EnergyType pokemonType, int healthPoint) {
+        super(cardName, CardType.Pokemon, 0);
+        this.pokemonType = pokemonType;
+        this.healthPoint = healthPoint;
+    }
+
     public PokemonCard(String cardName, int cardID, EnergyType pokemonType, int healthPoint, int evolutionStage, PokemonCard evolveFrom) {
         super(cardName, CardType.Pokemon , cardID);
         this.pokemonType = pokemonType;
