@@ -33,15 +33,10 @@ public class MainWindow extends JFrame {
         this.setTitle("PokeDeck");
         this.setLocationRelativeTo(null);
 
-
-
-        final Card card = new EnergyCard("Eau", EnergyType.Water);
-        Card card1 = new PokemonCard("Rondoudou", EnergyType.Fairy, 50);
-        final Card card2 = new TrainerCard("Pokeball", TrainerType.Item);
-
         final DefaultListModel<String> defaultListModel = new DefaultListModel<String>();
 
 
+        //Try to load
         FileInputStream fis = null;
         ObjectInputStream in = null;
         try {
@@ -51,6 +46,7 @@ public class MainWindow extends JFrame {
             in.close();
         } catch (Exception ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Aucune sauvegarde n'a été trouvée. Une nouvelle sera créer");
         }
 
         for (int i = 0; i < serializeCards.size() ; i++) {
@@ -69,14 +65,9 @@ public class MainWindow extends JFrame {
 //
 //        this.table1.setModel(defaultTableModel);
 
-
-
         addCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                defaultListModel.add(defaultListModel.getSize(),card2.getCardName());
-                serializeCards.add(card2);
-
-                AddCardWindow addCardWindow = new AddCardWindow(defaultListModel);
+                AddCardWindow addCardWindow = new AddCardWindow(defaultListModel, serializeCards);
                 addCardWindow.pack();
                 addCardWindow.setSize(260,365);
                 addCardWindow.setVisible(true);
@@ -115,7 +106,6 @@ public class MainWindow extends JFrame {
                     fos = new FileOutputStream(filename);
                     out = new ObjectOutputStream(fos);
                     out.writeObject(serializeCards);
-
                     out.close();
                 } catch (Exception ex) {
                     ex.printStackTrace();

@@ -3,14 +3,10 @@ package com.pokedeck.ui;
 import com.pokedeck.cards.*;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.awt.event.*;
+import java.util.ArrayList;
 
-public class AddCardWindow extends JFrame {
+public class AddCardWindow extends JDialog {
 
     //Attributes window
     private JPanel panel1;
@@ -26,29 +22,49 @@ public class AddCardWindow extends JFrame {
     private JButton createCardButton;
 
     //Other Attributes
-    private DefaultListModel cards;
-    Card card1 = new PokemonCard("Rondoudou", EnergyType.Fairy, 50);
+    private DefaultListModel listCards;
+    private ArrayList<Card> cards;
 
-
-    public AddCardWindow(final DefaultListModel cards) {
-
+    public AddCardWindow(final DefaultListModel listCards, final ArrayList<Card> cards) {
+        this.listCards = listCards;
         this.cards = cards;
 
-        //Initilize basic window informations
+        //Initialize basic window informations
         this.setContentPane(panel1);
         this.setTitle("Add a card");
         this.setLocationRelativeTo(null);
 
-        cardTypeField.setModel(new DefaultComboBoxModel(CardType.values()));
-        pokemonTypeField.setModel(new DefaultComboBoxModel(EnergyType.values()));
-        trainerTypeField.setModel(new DefaultComboBoxModel(TrainerType.values()));
-        energyTypeField.setModel(new DefaultComboBoxModel(EnergyType.values()));
+        //Initialize ComboBox
+        this.cardTypeField.setModel(new DefaultComboBoxModel(CardType.values()));
+        this.pokemonTypeField.setModel(new DefaultComboBoxModel(EnergyType.values()));
+        this.trainerTypeField.setModel(new DefaultComboBoxModel(TrainerType.values()));
+        this.energyTypeField.setModel(new DefaultComboBoxModel(EnergyType.values()));
 
+        for (Card card : cards) {
+            if (card.getType() == CardType.Pokemon) {
+                this.pokemonEvoFromField.addItem(card.getCardName());
+            }
+        }
+
+        //Initialize Fields
+        this.trainerTypeField.setEnabled(false);
+        this.energyTypeField.setEnabled(false);
 
         createCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cards.add(cards.getSize(),card1.getCardName());
-                dispose();
+                if (cardNameField.getText().length()>0) {
+                    listCards.add(listCards.getSize(),cardNameField.getText());
+                    if (cardTypeField.getSelectedItem() == CardType.Pokemon) {
+                        cards.add(new PokemonCard(cardNameField.getText(), (EnergyType) pokemonTypeField.getSelectedItem(), (Integer) pokemonHPField.getValue()));
+                    } else if (cardTypeField.getSelectedItem() == CardType.Trainer) {
+                        cards.add(new TrainerCard(cardNameField.getText(), (TrainerType) trainerTypeField.getSelectedItem()));
+                    } else if (cardTypeField.getSelectedItem() == CardType.Energy) {
+                        cards.add(new EnergyCard(cardNameField.getText(), (EnergyType) energyTypeField.getSelectedItem()));
+                    }
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null,"Merci de remplir le nom de la carte au minimum");
+                }
             }
         });
 
@@ -57,6 +73,34 @@ public class AddCardWindow extends JFrame {
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 dispose();
+            }
+        });
+
+
+        cardTypeField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (cardTypeField.getSelectedItem() == CardType.Pokemon) {
+                    pokemonTypeField.setEnabled(true);
+                    pokemonHPField.setEnabled(true);
+                    pokemonEvoStageField.setEnabled(true);
+                    pokemonEvoFromField.setEnabled(true);
+                    trainerTypeField.setEnabled(false);
+                    energyTypeField.setEnabled(false);
+                } else if (cardTypeField.getSelectedItem() == CardType.Trainer) {
+                    pokemonTypeField.setEnabled(false);
+                    pokemonHPField.setEnabled(false);
+                    pokemonEvoStageField.setEnabled(false);
+                    pokemonEvoFromField.setEnabled(false);
+                    trainerTypeField.setEnabled(true);
+                    energyTypeField.setEnabled(false);
+                } else if (cardTypeField.getSelectedItem() == CardType.Energy) {
+                    pokemonTypeField.setEnabled(false);
+                    pokemonHPField.setEnabled(false);
+                    pokemonEvoStageField.setEnabled(false);
+                    pokemonEvoFromField.setEnabled(false);
+                    trainerTypeField.setEnabled(false);
+                    energyTypeField.setEnabled(true);
+                }
             }
         });
     }
