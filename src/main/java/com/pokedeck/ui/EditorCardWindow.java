@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class AddCardWindow extends JDialog {
+public class EditorCardWindow extends JDialog {
 
     //Attributes window
     private JPanel panel1;
@@ -25,7 +25,7 @@ public class AddCardWindow extends JDialog {
     private DefaultListModel listCards;
     private ArrayList<Card> cards;
 
-    public AddCardWindow(final DefaultListModel listCards, final ArrayList<Card> cards) {
+    public EditorCardWindow(final DefaultListModel listCards, final ArrayList<Card> cards) {
         this.listCards = listCards;
         this.cards = cards;
 
