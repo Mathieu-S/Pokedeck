@@ -3,8 +3,6 @@ package com.pokedeck.ui;
 import com.pokedeck.cards.*;
 
 import javax.swing.*;
-import javax.swing.plaf.TableHeaderUI;
-import javax.swing.plaf.TableUI;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.io.FileInputStream;
@@ -25,6 +23,7 @@ public class MainWindow extends JFrame {
     //Attributes
     private String filename = "cards.ser";
     private ArrayList serializeCards = new ArrayList();
+    private final DefaultListModel<String> defaultListModel = new DefaultListModel<String>();
 
     public MainWindow() {
 
@@ -32,9 +31,6 @@ public class MainWindow extends JFrame {
         this.setContentPane(panel1);
         this.setTitle("PokeDeck");
         this.setLocationRelativeTo(null);
-
-        final DefaultListModel<String> defaultListModel = new DefaultListModel<String>();
-
 
         //Try to load
         FileInputStream fis = null;
@@ -49,21 +45,12 @@ public class MainWindow extends JFrame {
             JOptionPane.showMessageDialog(null,"Aucune sauvegarde n'a été trouvée. Une nouvelle sera créer");
         }
 
+        //Prepare items in JList
         for (int i = 0; i < serializeCards.size() ; i++) {
             Card tempCard = (Card) serializeCards.get(i);
             defaultListModel.add(i, tempCard.getCardName());
         }
         cardList.setModel(defaultListModel);
-
-//        Object [] cards = {card.getCardName(), card.getType()};
-//        DefaultTableModel defaultTableModel = new DefaultTableModel();
-//        Object [] entetes = {"Name", "Type"};
-//        defaultTableModel.addColumn("Name");
-//        defaultTableModel.addColumn("Type");
-//        defaultTableModel.setColumnIdentifiers(entetes);
-//        defaultTableModel.addRow(cards);
-//
-//        this.table1.setModel(defaultTableModel);
 
         addCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -91,7 +78,33 @@ public class MainWindow extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                System.out.println(cardList.getSelectedIndex());
+                DefaultTableModel defaultTableModel = new DefaultTableModel();
+                defaultTableModel.addColumn("DataType");
+                defaultTableModel.addColumn("Value");
+                Card typeCardSelected = (Card) serializeCards.get(cardList.getSelectedIndex());
+                if (typeCardSelected.getType() == CardType.Pokemon) {
+                    PokemonCard cardSelected = (PokemonCard) serializeCards.get(cardList.getSelectedIndex());
+                    defaultTableModel.addRow(new String[]{"ID", String.valueOf(cardSelected.getCardID())});
+                    defaultTableModel.addRow(new String[]{"Name", cardSelected.getCardName()});
+                    defaultTableModel.addRow(new String[]{"Card Type", String.valueOf(cardSelected.getType())});
+                    defaultTableModel.addRow(new String[]{"Pokemon Type", String.valueOf(cardSelected.getPokemonType())});
+                    defaultTableModel.addRow(new String[]{"Health Points", String.valueOf(cardSelected.getHealthPoint())});
+                    defaultTableModel.addRow(new String[]{"Evolution Stage", String.valueOf(cardSelected.getEvolutionStage())});
+                    defaultTableModel.addRow(new String[]{"Evolve From", String.valueOf(cardSelected.getEvolveFrom().getCardName())});
+                } else if (typeCardSelected.getType() == CardType.Trainer) {
+                    TrainerCard cardSelected = (TrainerCard) serializeCards.get(cardList.getSelectedIndex());
+                    defaultTableModel.addRow(new String[]{"ID", String.valueOf(cardSelected.getCardID())});
+                    defaultTableModel.addRow(new String[]{"Name", cardSelected.getCardName()});
+                    defaultTableModel.addRow(new String[]{"Card Type", String.valueOf(cardSelected.getType())});
+                    defaultTableModel.addRow(new String[]{"Trainer Type", String.valueOf(cardSelected.getTrainerType())});
+                } else if (typeCardSelected.getType() == CardType.Energy) {
+                    EnergyCard cardSelected = (EnergyCard) serializeCards.get(cardList.getSelectedIndex());
+                    defaultTableModel.addRow(new String[]{"ID", String.valueOf(cardSelected.getCardID())});
+                    defaultTableModel.addRow(new String[]{"Name", cardSelected.getCardName()});
+                    defaultTableModel.addRow(new String[]{"Card Type", String.valueOf(cardSelected.getType())});
+                    defaultTableModel.addRow(new String[]{"Energy Type", String.valueOf(cardSelected.getEnergyType())});
+                }
+                table1.setModel(defaultTableModel);
             }
         });
 
@@ -114,9 +127,9 @@ public class MainWindow extends JFrame {
                 dispose();
             }
         });
-    }
 
-    public JTable getTable1() {
-        return table1;
+
+
+
     }
 }
