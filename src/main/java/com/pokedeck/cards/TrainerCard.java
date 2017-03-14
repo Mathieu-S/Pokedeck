@@ -5,7 +5,7 @@ public class TrainerCard extends Card{
     private TrainerType trainerType;
 
     public TrainerCard(String cardName, int cardID, TrainerType trainerType) {
-        super(cardName, CardType.Pokemon , cardID);
+        super(cardName, CardType.Energy , cardID);
         this.trainerType = trainerType;
     }
 
