@@ -156,14 +156,13 @@ public class EditorCardWindow extends JDialog {
         Card typeCardSelected = (Card) cards.get(selectedCard);
         if (typeCardSelected.getType() == CardType.Pokemon) {
             PokemonCard cardSelected = (PokemonCard) cards.get(selectedCard);
-            System.out.println(cardSelected.getEvolveFrom().getCardName());
             this.cardNameField.setText(cardSelected.getCardName());
             this.cardIDField.setValue(cardSelected.getCardID());
             this.cardTypeField.setSelectedItem(cardSelected.getType());
             this.pokemonTypeField.setSelectedItem(cardSelected.getPokemonType());
             this.pokemonHPField.setValue(cardSelected.getHealthPoint());
             this.pokemonEvoStageField.setValue(cardSelected.getEvolutionStage());
-            this.pokemonTypeField.setSelectedItem(cardSelected.getEvolveFrom().getCardName());
+            this.pokemonEvoFromField.setSelectedItem(cardSelected.getEvolveFrom().getCardName());
         } else if (typeCardSelected.getType() == CardType.Trainer) {
             TrainerCard cardSelected = (TrainerCard) cards.get(selectedCard);
             this.pokemonTypeField.setEnabled(false);
