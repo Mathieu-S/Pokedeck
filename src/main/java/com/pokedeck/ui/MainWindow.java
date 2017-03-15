@@ -19,11 +19,12 @@ public class MainWindow extends JFrame {
     private JButton deleteCardButton;
     private JList cardList;
     private JTable table1;
+    private JButton editCardButton;
 
     //Attributes
     private String filename = "cards.ser";
     private ArrayList serializeCards = new ArrayList();
-    private final DefaultListModel<String> defaultListModel = new DefaultListModel<String>();
+    private DefaultListModel<String> defaultListModel = new DefaultListModel<String>();
 
     public MainWindow() {
 
@@ -54,10 +55,23 @@ public class MainWindow extends JFrame {
 
         addCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AddCardWindow addCardWindow = new AddCardWindow(defaultListModel, serializeCards);
-                addCardWindow.pack();
-                addCardWindow.setSize(260,365);
-                addCardWindow.setVisible(true);
+                EditorCardWindow editorCardWindow = new EditorCardWindow(defaultListModel, serializeCards);
+                editorCardWindow.pack();
+                editorCardWindow.setSize(260,365);
+                editorCardWindow.setVisible(true);
+            }
+        });
+
+        editCardButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (cardList.getSelectedIndex() >= 0) {
+                    EditorCardWindow editorCardWindow = new EditorCardWindow(defaultListModel, serializeCards, cardList.getSelectedIndex());
+                    editorCardWindow.pack();
+                    editorCardWindow.setSize(260,365);
+                    editorCardWindow.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null,"Vous n'avez selectionnez aucune carte");
+                }
             }
         });
 
@@ -127,9 +141,5 @@ public class MainWindow extends JFrame {
                 dispose();
             }
         });
-
-
-
-
     }
 }
