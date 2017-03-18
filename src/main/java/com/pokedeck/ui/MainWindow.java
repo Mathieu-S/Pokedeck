@@ -14,22 +14,22 @@ import java.util.ArrayList;
 public class MainWindow extends JFrame {
 
     //Attributes window
-    private JPanel panel1;
+    private JPanel jPanel;
     private JButton addCardButton;
     private JButton deleteCardButton;
-    private JList cardList;
-    private JTable table1;
+    private JList jListCards;
+    private JTable jTableCardList;
     private JButton editCardButton;
 
     //Attributes
     private String filename = "cards.ser";
-    private ArrayList serializeCards = new ArrayList();
-    private DefaultListModel<String> defaultListModel = new DefaultListModel<String>();
+    private ArrayList cards = new ArrayList();
+    private DefaultListModel<String> listCards = new DefaultListModel<String>();
 
     public MainWindow() {
 
         //Initilize basic window informations
-        this.setContentPane(panel1);
+        this.setContentPane(jPanel);
         this.setTitle("PokeDeck");
         this.setLocationRelativeTo(null);
 
@@ -39,7 +39,7 @@ public class MainWindow extends JFrame {
         try {
             fis = new FileInputStream(filename);
             in = new ObjectInputStream(fis);
-            serializeCards = (ArrayList) in.readObject();
+            cards = (ArrayList) in.readObject();
             in.close();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -47,15 +47,15 @@ public class MainWindow extends JFrame {
         }
 
         //Prepare items in JList
-        for (int i = 0; i < serializeCards.size() ; i++) {
-            Card tempCard = (Card) serializeCards.get(i);
-            defaultListModel.add(i, tempCard.getCardName());
+        for (int i = 0; i < cards.size() ; i++) {
+            Card tempCard = (Card) cards.get(i);
+            listCards.add(i, tempCard.getCardName());
         }
-        cardList.setModel(defaultListModel);
+        jListCards.setModel(listCards);
 
         addCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                EditorCardWindow editorCardWindow = new EditorCardWindow(defaultListModel, serializeCards);
+                EditorCardWindow editorCardWindow = new EditorCardWindow(listCards, cards);
                 editorCardWindow.pack();
                 editorCardWindow.setSize(260,365);
                 editorCardWindow.setVisible(true);
@@ -64,8 +64,8 @@ public class MainWindow extends JFrame {
 
         editCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (cardList.getSelectedIndex() >= 0) {
-                    EditorCardWindow editorCardWindow = new EditorCardWindow(defaultListModel, serializeCards, cardList.getSelectedIndex());
+                if (jListCards.getSelectedIndex() >= 0) {
+                    EditorCardWindow editorCardWindow = new EditorCardWindow(listCards, cards, jListCards.getSelectedIndex());
                     editorCardWindow.pack();
                     editorCardWindow.setSize(260,365);
                     editorCardWindow.setVisible(true);
@@ -78,9 +78,9 @@ public class MainWindow extends JFrame {
         deleteCardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    serializeCards.remove(cardList.getSelectedIndex());
-                    defaultListModel.remove(cardList.getSelectedIndex());
-                    cardList.setModel(defaultListModel);
+                    cards.remove(jListCards.getSelectedIndex());
+                    listCards.remove(jListCards.getSelectedIndex());
+                    jListCards.setModel(listCards);
                 } catch (ArrayIndexOutOfBoundsException ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null,"Vous n'avez selectionnez aucune carte");
@@ -88,16 +88,16 @@ public class MainWindow extends JFrame {
             }
         });
 
-        cardList.addMouseListener(new MouseAdapter() {
+        jListCards.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 DefaultTableModel defaultTableModel = new DefaultTableModel();
                 defaultTableModel.addColumn("DataType");
                 defaultTableModel.addColumn("Value");
-                Card typeCardSelected = (Card) serializeCards.get(cardList.getSelectedIndex());
+                Card typeCardSelected = (Card) cards.get(jListCards.getSelectedIndex());
                 if (typeCardSelected.getType() == CardType.Pokemon) {
-                    PokemonCard cardSelected = (PokemonCard) serializeCards.get(cardList.getSelectedIndex());
+                    PokemonCard cardSelected = (PokemonCard) cards.get(jListCards.getSelectedIndex());
                     defaultTableModel.addRow(new String[]{"ID", String.valueOf(cardSelected.getCardID())});
                     defaultTableModel.addRow(new String[]{"Name", cardSelected.getCardName()});
                     defaultTableModel.addRow(new String[]{"Card Type", String.valueOf(cardSelected.getType())});
@@ -106,19 +106,19 @@ public class MainWindow extends JFrame {
                     defaultTableModel.addRow(new String[]{"Evolution Stage", String.valueOf(cardSelected.getEvolutionStage())});
                     defaultTableModel.addRow(new String[]{"Evolve From", String.valueOf(cardSelected.getEvolveFrom().getCardName())});
                 } else if (typeCardSelected.getType() == CardType.Trainer) {
-                    TrainerCard cardSelected = (TrainerCard) serializeCards.get(cardList.getSelectedIndex());
+                    TrainerCard cardSelected = (TrainerCard) cards.get(jListCards.getSelectedIndex());
                     defaultTableModel.addRow(new String[]{"ID", String.valueOf(cardSelected.getCardID())});
                     defaultTableModel.addRow(new String[]{"Name", cardSelected.getCardName()});
                     defaultTableModel.addRow(new String[]{"Card Type", String.valueOf(cardSelected.getType())});
                     defaultTableModel.addRow(new String[]{"Trainer Type", String.valueOf(cardSelected.getTrainerType())});
                 } else if (typeCardSelected.getType() == CardType.Energy) {
-                    EnergyCard cardSelected = (EnergyCard) serializeCards.get(cardList.getSelectedIndex());
+                    EnergyCard cardSelected = (EnergyCard) cards.get(jListCards.getSelectedIndex());
                     defaultTableModel.addRow(new String[]{"ID", String.valueOf(cardSelected.getCardID())});
                     defaultTableModel.addRow(new String[]{"Name", cardSelected.getCardName()});
                     defaultTableModel.addRow(new String[]{"Card Type", String.valueOf(cardSelected.getType())});
                     defaultTableModel.addRow(new String[]{"Energy Type", String.valueOf(cardSelected.getEnergyType())});
                 }
-                table1.setModel(defaultTableModel);
+                jTableCardList.setModel(defaultTableModel);
             }
         });
 
@@ -132,7 +132,7 @@ public class MainWindow extends JFrame {
                 try {
                     fos = new FileOutputStream(filename);
                     out = new ObjectOutputStream(fos);
-                    out.writeObject(serializeCards);
+                    out.writeObject(cards);
                     out.close();
                 } catch (Exception ex) {
                     ex.printStackTrace();

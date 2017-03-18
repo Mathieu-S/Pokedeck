@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class EditorCardWindow extends JDialog {
 
     //Attributes window
-    private JPanel panel1;
+    private JPanel jPanel;
     private JTextField cardNameField;
     private JComboBox cardTypeField;
     private JSpinner cardIDField;
@@ -31,7 +31,7 @@ public class EditorCardWindow extends JDialog {
         this.cards = cards;
 
         //Initialize basic window informations
-        this.setContentPane(panel1);
+        this.setContentPane(jPanel);
         this.setTitle("Add a card");
         this.setLocationRelativeTo(null);
 
@@ -131,7 +131,7 @@ public class EditorCardWindow extends JDialog {
         this.selectedCard = selectedCard;
 
         //Initialize basic window informations
-        this.setContentPane(panel1);
+        this.setContentPane(jPanel);
         this.setTitle("Add a card");
         this.setLocationRelativeTo(null);
         this.createCardButton.setText("Edit Card");
