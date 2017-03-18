@@ -1,5 +1,8 @@
 package com.pokedeck.cards;
 
+/**
+ * Enum type of energy
+ */
 public enum EnergyType {
     Grass,
     Fire,
