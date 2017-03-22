@@ -6,6 +6,11 @@ La finalité du projet est de créer un Pokedex en Java à partir du jeu de cart
 L'interface graphique utilisée est swing (peut ne plus fonctionné dans le futur, car 
 [déprécié](http://www.oracle.com/technetwork/java/javafx/overview/faq-1446554.html#6) par Oracle).
 
+Pour exécuter le programme, vous pouvez télécharger la dernière version dans l'onglet "release" du github. 
+Sous Windows un double clique sur le .jar suffit. Si il ne démarre pas, vous pouvez taper la commande suivante :
+
+    java -jar pokedeck_V1.jar
+
 ## L'interface utilisateur
 Lorsque le Pokedeck démarre, il tente de charger un fichier nommé "cards.ser". Si il n'est pas présent, un message 
 apparaitra indiquant qu'une nouvelle sauvegarde sera créée.
